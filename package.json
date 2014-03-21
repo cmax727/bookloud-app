@@ -1,0 +1,10 @@
+{
+  "name": "PhysicsFirst",
+  "main": "index.html",
+    "window": {
+        "frame": true,
+        "toolbar": true,
+        "width": 640,
+        "height": 960
+    }
+}

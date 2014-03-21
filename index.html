@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Physics First</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/docs.min.css" rel="stylesheet">
+    <link href="assets/css/opensans.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/signin.css">
+    
+    <!--<link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    
+
+    <script src="Library/jquery.js"></script>
+    <script src="Library/bootstrap.min.js"></script>
+    <script src="Library/base64.js"></script>
+    <script src="Library/clearsearch.js"></script>
+    <script src="Library/eventbus.js"></script>
+    <!--<script src="Library/modal.js"></script>-->
+    <script src="Library/jquery.smooth-scroll.js"></script>
+    <script src="Library/resize.min.js"></script>
+    <script src="Library/spin.min.js"></script>
+     
+    <script src="assets/js/Tools.js"></script>
+
+    <script src="assets/js/Server.js"></script>
+    <script src="assets/js/Footer.js"></script>
+    <script src="assets/js/LoginManager.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/DBManager.js"></script>
+    <script src="assets/js/BookFactory.js"></script>
+    <script src="assets/js/Event.js"></script>
+    <script src="assets/js/BookContentManager.js"></script>
+    <script src="assets/js/ContentDBManager.js"></script>
+    <script src="assets/js/SQLitePlugin.js"></script>
+    <script src="assets/js/PluginController.js"></script>
+    <script src="assets/settings/settings.js"></script>
+    <script src="assets/settings/booksettings.js"></script>
+    <script src="assets/settings/usersettings.js"></script>
+    <script src="assets/js/App.js"></script>
+    <script src="assets/js/BookManager.js"></script>
+    <script src="assets/js/Session.js"></script>
+    <script type="text/javascript" src="Library/jquery.iframeResizer.min.js"></script>
+    
+</head>
+
+<body>
+    <div class="container">
+        <div id="loginView" class="signin"  style="display: block;">
+            <div class="bs-callout bs-callout-danger" id="login-error" style="display:none;"><h4>Bad username or password</h4><p>You have entered a wrong username or password please check with your administrator!</p></div>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <form class="form-signin" role="form">
+                    <h3 class="form-signin-heading">Physics First<span>&#174;</span></h3>
+                    <input id="log" name="log" type="text" class="form-control" placeholder="User Name" required autofocus />
+                    <input id="pass" name="pass" type="password" class="form-control" placeholder="Password" required />
+                    <input id="server" name="server" class="form-control" value='https://devphysicsfirst.werkzpublishing.com/api/' required />
+                    <p>&nbsp;</p>
+                    <button id="login" class="btn btn-lg btn-primary btn-block">Sign in &nbsp;<span class="glyphicon" id="loginpreloader" style="vertical-align:middle;"></span></button>
+                </form>
+              </div>
+            </div>
+        </div>
+        <!-- END SIGN IN FORM -->
+        <div class="view" id="bookview">
+            <div id="titleHeader">
+                <div class="col-md-8"><h2 id="title"></h2></div>
+                <div id="addbook" class="pull-right">
+                    Get more books &nbsp;&nbsp;
+                    <img src="assets/image/plus.png">
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="fiftypxgap">
+                <ul class="view" id="books">       
+                </ul>
+            </div>
+        </div>
+                 
+
+        <!-- LIBRARY AND SEARCH BOOK VIEW -->    
+        <div id="bookpopup" class="newview" style="display: none; ">
+            <div>
+                <span class="back2Lib" id="backtolib">
+                    Back to Library
+                </span>
+            </div>
+            <h2 id="bookstore">Book Store</h2>
+             <div class="storesearch" id="searchstore">
+            </div>
+            <div id="searchbox">
+                    <input id="search" type="text" class="form-control" placeholder="Search" name="srch-term">
+            </div>
+
+            <div id="newbookdiv">  
+                <ul class="newbooklist" id="newbooklist">
+                </ul>
+                <ul class="searchbooklist" id="searchbooklist">
+                </ul>
+            </div>            
+        </div>
+        <!--  Start of delete popup -->
+        <div id="delpopup" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a id="delete" class="close" data-dismiss="modal">[x]</a>
+                <p id="delheading">Confirm Delete</p>
+              </div>
+              <div class="modal-body">
+                <p id="delbody">Are you sure you want to delete and unsubscribe the book</p>
+              </div>
+              <div class="modal-footer">
+                <button id="btnclose" class="btn">Cancel</button>
+                <button id="btndel" class="btn btn-danger">Delete</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- End of DELETE POP UP -->
+
+
+        <!-- BOOK SETTINGS POPUP -->
+        <div id="booksettingpopup" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a id="close" class="close" data-dismiss="modal">[x]</a>
+                <h4>Book Setting</h4>
+              </div>
+              <div class="modal-body">
+                <table id="booktable" class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <th>Teacher Name</th>
+                        <th>Class</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- END OF BOOK SETTINGS -->
+
+        <!-- ERROR POP UP ON LOGIN -->    
+        <div id="loginerror" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">x</a>
+                 <h3>Login Error</h3>
+              </div>
+              <div class="modal-body">
+                <h4> Login Unsuccessful </h4>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- END OF ERROR POP UP -->
+
+
+        <!-- No Internet Connection Found Div -->
+        <div id="servererror" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">[x]</a>
+                <h3>Server Error</h3>
+              </div>
+              <div class="modal-body">
+                <h4>You are currently not logged in. You need to login to enable communication with the server</h4>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- End of No Internet Connection Found Div -->
+
+
+        <!-- No Internet Connection Found Div -->
+        <div id="networkerror" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">[x]</a>
+                <h3>Network Error</h3>
+              </div>
+              <div class="modal-body">
+                <h4>Please check your internet connection</h4>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- End of No Internet Connection Found Div -->
+             
+    </div> <!-- /container -->
+
+    <!-- FOOTER -->
+        <div class="footer-wrapper" id="footer">  
+            <ul id="footerlist" class="nav nav-pills">
+                <li><a id="library" href="#">Library</a></li>
+                <li class="current"><a id="account" href="#">Account</a></li>
+                <li><a id="review" href="#">Review</a></li>
+                <li><a id="showDel" href="#">Edit</a></li>
+            </ul>
+            <ul id="pagination" class="nav nav-pills pull-right" style="display:none;">
+                <li><a href="#" class="disabled">PAGE: <span id="currentPage"></span>/<span id="totalPages"></span></a></li>
+                <li><a id="backbtn" href="#" class="btn btn-primary btn-sm">Back</a></li> 
+                <li><a id="nextbtn" href="#" class="btn btn-primary btn-sm">Next</a></li>
+            </ul>
+        </div>    
+        <!-- END OF FOOTER -->
+    <!-- Exception Caught  Message -->
+    <div id="exception" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">[x]</a>
+                <h3>Error</h3>
+              </div>
+              <div class="modal-body">
+                <p>File is Corrupt. Please try again later.</p>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!-- End of Exception Caught  Message -->
+
+
+    <!-- show browser -->
+    <div id="showbrowser" class="modal fade">
+          <div id="showmodal" class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a id="showbrowserclose" class="close" data-dismiss="modal">[x]</a>                
+              </div>
+              <div class="modal-body">
+                <iframe id="showbrowseriframe"></iframe>
+              </div>              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!-- End of show browser -->
+
+    <!-- PRELOADER DIV -->
+    <div id="preloader" class="preloader">
+        <p id="preloadertext"></p>
+         <div class="progress progress-striped active">
+         <div id="bar" class="progress-bar"  role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            </div>         
+        </div>
+    </div>  
+        
+   
+
+    <!--  BEGINNING OF BOOK VIEW  -->
+    <div id="bookcontentview" class="bookcontentview" style="display: none; ">
+        <div id="userbookcontent">
+            <div id="contentcontainer">
+                <div id="menubar" class="btn-group-vertical">
+                    <button id="backtohome" class="btn btn-default" data-toggle="home-tooltip">
+                        <span id="home" class="glyphicon glyphicon-home"></span>
+                    </button>
+                    <button id="searchcontent" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button id="calendar" class="btn btn-default">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </button>
+                    <button id="announcement" class="btn btn-default">
+                        <span class="glyphicon glyphicon-bell"></span>
+                    </button>
+                    <button id="feedback" class="btn btn-default">
+                        <span class="glyphicon glyphicon-check"></span>
+                    </button>
+
+                    <button id="method" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <!-- MenuBar content-->
+                </div>
+                <div id="navigation">
+                    <ul id="navlist">                        
+                    </ul>                    
+                </div>
+                <div id="userbook">                
+                </div>
+                <div id="methoddraw">                    
+                </div>
+                <div id="comment">
+                    Comment Section
+                    <!-- Comment Section content-->
+                </div>
+            </div>
+        </div>
+    </div>   
+</body>          
+</html>

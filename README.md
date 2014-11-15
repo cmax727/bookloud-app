@@ -1,7 +1,19 @@
-mpx32p93
+Bookloud for teachers/students
 ========
 
-sbx plc 93
+subject: there books prepared by students with questions at the end of every chapter.
+
+students apply to join a lesson.
+
+teach gives task to students on the book.
+
+students answer questions on the book and submit their choices/answers.
+
+Teacher gives feedback to them.
+
+This type of thread continues....
+
+[technical spec]
 
 Node.js + Javascript + Node-Webkit.
 
